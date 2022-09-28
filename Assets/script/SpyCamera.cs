@@ -12,7 +12,7 @@ namespace script
     };
 
 
-    public class SpyCam : MonoBehaviour
+    public class SpyCamera : MonoBehaviour
     {
         public float speed = 10;
         public float deg = 90;
