@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace script
 {
@@ -9,6 +11,8 @@ namespace script
         [SerializeField] private float viewAngle;
         [SerializeField] private float resolution;
         [SerializeField] private MeshFilter viewMeshFilter;
+        [SerializeField] private MeshCollider meshCollider;
+        [SerializeField] private NavMeshSurface navMeshSurface;
         private Mesh _viewMesh;
 
         public float ViewAngle
@@ -132,10 +136,13 @@ namespace script
             _viewMesh.name = "View Mesh";
 
             viewMeshFilter.mesh = _viewMesh;
+            meshCollider.sharedMesh = _viewMesh;
+            meshCollider.convex = true;
         }
 
         void LateUpdate()
         {
+            meshCollider.convex = false;
             DrawFieldOfView();
         }
     }

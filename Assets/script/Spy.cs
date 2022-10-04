@@ -1,40 +1,42 @@
-using System.Collections.Generic;
-using System.Numerics;
-using script.action;
+using System;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace script
 {
-    public class Spy
+    public class Spy : MonoBehaviour
     {
-        private Room _currentRoom;
-        private bool _spotted;
-        private bool _escaped;
-        private List<ActionSpy> _actions;
-        private Vector2 _position;
-        
-        public Spy(Room room)
+        [SerializeField] private NavMeshSurface navMeshSurface;
+        [SerializeField] private WhiteBoardCameraAware whiteBoard;
+        private Camera _camera;
+        private NavMeshAgent _agent;
+
+        private void Awake()
         {
-            EnterRoom(room);
-            _spotted = false;
-            _escaped = false;
-            _actions = new List<ActionSpy>();
+            _camera = Camera.main;
+            _agent = GetComponent<NavMeshAgent>();
         }
 
-        public void EnterRoom(Room room)
+        private void Update()
         {
-            _currentRoom = room;
-            _position = room.PosEntrance;
         }
 
-        public void Moove(Vector2 position)
+        private void FixedUpdate()
         {
-         // TODO   
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    _agent.SetDestination(hit.point);
+                }
+            }
         }
 
-        public Vector2 Position
+        public void OnCameraAwareModified()
         {
-            get => _position;
-            set => _position = value;
+            navMeshSurface.UpdateNavMesh(navMeshSurface.navMeshData);
+            //TODO
         }
     }
 }

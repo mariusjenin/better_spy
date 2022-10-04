@@ -13,6 +13,7 @@ namespace script
 
     public class SpyCamera : MonoBehaviour
     {
+        private float SpyCameraSpeedConstant = 40f;
         [Range(0,1)]
         public float speed = 1;
         [Range(0,1)]
@@ -34,13 +35,13 @@ namespace script
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             if((_currentAngle >= _bound.upper)  || (_currentAngle <= _bound.lower))
                 _currentDirection *= -1;
                 
-            _currentAngle += _currentDirection * speed;
-            transform.Rotate(0, _currentDirection * speed, 0);
+            _currentAngle += _currentDirection * speed * Time.fixedDeltaTime * SpyCameraSpeedConstant;
+            transform.Rotate(0, _currentDirection * speed * Time.fixedDeltaTime * SpyCameraSpeedConstant, 0);
         }
     }
 }
