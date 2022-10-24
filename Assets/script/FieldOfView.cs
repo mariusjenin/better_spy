@@ -13,6 +13,7 @@ namespace script
         [SerializeField] private MeshFilter viewMeshFilter;
         [SerializeField] private MeshCollider meshCollider;
         [SerializeField] private NavMeshSurface navMeshSurface;
+        [SerializeField] private LayerMask _layerMask;
         private Mesh _viewMesh;
 
         public float ViewAngle
@@ -80,7 +81,7 @@ namespace script
         {
             Vector3 direction = DirFromAngle(angle, true);
             RaycastHit hit;
-            if(Physics.Raycast(transform.position, direction, out hit, viewRadius))
+            if(Physics.Raycast(transform.position, direction, out hit, viewRadius,_layerMask))
             {
                 // Debug.Log("HIT");
                 return new ViewCastInfo(true, hit.point, hit.distance, angle);
